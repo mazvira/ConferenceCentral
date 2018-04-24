@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.google.devrel.training.hobby.form.ProfileForm.TeeShirtSize;
 import com.googlecode.objectify.annotation.Cache;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -16,7 +15,6 @@ import com.googlecode.objectify.annotation.Id;
 public class Profile {
     String displayName;
     String mainEmail;
-    TeeShirtSize teeShirtSize;
 
     // TODO indicate that the userId is to be used in the Entity's key
     @Id String userId;
@@ -34,11 +32,10 @@ public class Profile {
      * @param teeShirtSize The User's tee shirt size
      *
      */
-    public Profile (String userId, String displayName, String mainEmail, TeeShirtSize teeShirtSize) {
+    public Profile (String userId, String displayName, String mainEmail) {
         this.userId = userId;
         this.displayName = displayName;
         this.mainEmail = mainEmail;
-        this.teeShirtSize = teeShirtSize;
     }
 
     public String getDisplayName() {
@@ -47,10 +44,6 @@ public class Profile {
 
     public String getMainEmail() {
         return mainEmail;
-    }
-
-    public TeeShirtSize getTeeShirtSize() {
-        return teeShirtSize;
     }
 
     public String getUserId() {
@@ -76,13 +69,11 @@ public class Profile {
      * @param displayName
      * @param teeShirtSize
      */
-    public void update(String displayName, TeeShirtSize teeShirtSize) {
+    public void update(String displayName) {
         if (displayName != null) {
             this.displayName = displayName;
         }
-        if (teeShirtSize != null) {
-            this.teeShirtSize = teeShirtSize;
-        }
+     
     }
 
     /**

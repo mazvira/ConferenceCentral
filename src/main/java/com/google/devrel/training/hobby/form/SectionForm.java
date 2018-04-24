@@ -1,6 +1,7 @@
 package com.google.devrel.training.hobby.form;
 
 import com.google.common.collect.ImmutableList;
+import com.googlecode.objectify.annotation.Index;
 
 import java.util.Date;
 import java.util.List;
@@ -22,49 +23,42 @@ public class SectionForm {
     /**
      * Topics that are discussed in this conference.
      */
-    private List<String> topics;
+    private List<String> categories;
 
     /**
      * The city where the conference will take place.
      */
     private String city;
+    
+    private String address;
 
-    /**
-     * The start date of the conference.
-     */
-    private Date startDate;
+    private String workingTime;
+    
+    private int price;
 
-    /**
-     * The end date of the conference.
-     */
-    private Date endDate;
-
-    /**
-     * The capacity of the conference.
-     */
-    private int maxAttendees;
-
+  
     private SectionForm() {}
 
     /**
      * Public constructor is solely for Unit Test.
      * @param name
      * @param description
-     * @param topics
+     * @param categories
      * @param city
-     * @param startDate
-     * @param endDate
-     * @param maxAttendees
+     * @param address
+     * @param workingTime
+     * @param price
      */
-    public SectionForm(String name, String description, List<String> topics, String city,
-                          Date startDate, Date endDate, int maxAttendees) {
+    public SectionForm(String name, String description, List<String> categories, String city ,
+    		String address, String workingTime, int price) {
         this.name = name;
         this.description = description;
-        this.topics = topics == null ? null : ImmutableList.copyOf(topics);
+        this.categories = categories == null ? null : ImmutableList.copyOf(categories);
         this.city = city;
-        this.startDate = startDate == null ? null : new Date(startDate.getTime());
-        this.endDate = endDate == null ? null : new Date(endDate.getTime());
-        this.maxAttendees = maxAttendees;
+        this.address = address;
+        this.workingTime = workingTime;
+        this.price = price;
+
     }
 
     public String getName() {
@@ -76,22 +70,23 @@ public class SectionForm {
     }
 
     public List<String> getTopics() {
-        return topics;
+        return categories;
     }
 
     public String getCity() {
         return city;
     }
-
-    public Date getStartDate() {
-        return startDate;
+    
+    public String getAddress() {
+        return address;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public String workingTime() {
+    	return workingTime;
+    }
+    
+    public int price() {
+    	return price;
     }
 
-    public int getMaxAttendees() {
-        return maxAttendees;
-    }
 }

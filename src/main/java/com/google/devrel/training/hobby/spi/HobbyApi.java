@@ -29,7 +29,6 @@ import com.google.devrel.training.hobby.domain.Section;
 import com.google.devrel.training.hobby.form.SectionQueryForm;
 import com.google.devrel.training.hobby.form.ProfileForm;
 import com.google.devrel.training.hobby.form.SectionForm;
-import com.google.devrel.training.hobby.form.ProfileForm.TeeShirtSize;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.cmd.Query;
@@ -90,7 +89,6 @@ public class HobbyApi {
         // Get the displayName and teeShirtSize sent by the request.
 
         String displayName = profileForm.getDisplayName();
-        TeeShirtSize teeShirtSize = profileForm.getTeeShirtSize();
 
         // Get the Profile from the datastore if it exists
         // otherwise create a new one
@@ -104,15 +102,13 @@ public class HobbyApi {
                 displayName = extractDefaultDisplayNameFromEmail(user
                         .getEmail());
             }
-            if (teeShirtSize == null) {
-                teeShirtSize = TeeShirtSize.NOT_SPECIFIED;
-            }
+           
             // Now create a new Profile entity
-            profile = new Profile(userId, displayName, mainEmail, teeShirtSize);
+            profile = new Profile(userId, displayName, mainEmail);
         } else {
             // The Profile entity already exists
             // Update the Profile entity
-            profile.update(displayName, teeShirtSize);
+            profile.update(displayName);
         }
 
         // TODO 3
@@ -163,7 +159,7 @@ public class HobbyApi {
             // Use default displayName and teeShirtSize
             String email = user.getEmail();
             profile = new Profile(user.getUserId(),
-                    extractDefaultDisplayNameFromEmail(email), email, TeeShirtSize.NOT_SPECIFIED);
+                    extractDefaultDisplayNameFromEmail(email), email);
         }
         return profile;
     }
@@ -433,12 +429,12 @@ public class HobbyApi {
                 if (profile.getConferenceKeysToAttend().contains(
                         websafeConferenceKey)) {
                     return new WrappedBoolean (false, "Already registered");
-                } else if (conference.getSeatsAvailable() <= 0) {
+                } /*else if (conference.getSeatsAvailable() <= 0) {
                     return new WrappedBoolean (false, "No seats available");
-                } else {
+                }*/ else {
                     // All looks good, go ahead and book the seat
                     profile.addToConferenceKeysToAttend(websafeConferenceKey);
-                    conference.bookSeats(1);
+                   // conference.bookSeats(1);
 
                     // Save the Conference and Profile entities
                     ofy().save().entities(profile, conference).now();
@@ -511,7 +507,7 @@ public class HobbyApi {
                 Profile profile = getProfileFromUser(user);
                 if (profile.getConferenceKeysToAttend().contains(websafeConferenceKey)) {
                     profile.unregisterFromConference(websafeConferenceKey);
-                    conference.giveBackSeats(1);
+                   //conference.giveBackSeats(1);
                     ofy().save().entities(profile, conference).now();
                     return new WrappedBoolean(true);
                 } else {

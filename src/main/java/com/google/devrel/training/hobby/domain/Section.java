@@ -67,7 +67,7 @@ public class Section {
      * Topics related to this conference.
      */
     @Index
-    private List<String> topics;
+    private List<String> categories;
 
     /**
      * The name of the city that the conference takes place.
@@ -77,32 +77,17 @@ public class Section {
     /**
      * The starting date of this conference.
      */
-    private Date startDate;
+    @Index
+    private String address;
 
     /**
-     * The ending date of this conference.
-     */
-    private Date endDate;
-
-    /**
-     * Indicating the starting month derived from startDate.
-     *
-     * We need this for a composite query specifying the starting month.
+     * The workingTime of this section.
      */
     @Index
-    private int month;
-
-    /**
-     * The maximum capacity of this conference.
-     */
+    private String workingTime;
+    
     @Index
-    private int maxAttendees;
-
-    /**
-     * Number of seats currently available.
-     */
-    @Index
-     private int seatsAvailable;
+    private int price;
 
     /**
      * Just making the default constructor private.
@@ -110,12 +95,12 @@ public class Section {
     private Section() {}
 
     public Section(final long id, final String organizerUserId,
-                      final SectionForm conferenceForm) {
-        Preconditions.checkNotNull(conferenceForm.getName(), "The name is required");
+                      final SectionForm sectionForm) {
+        Preconditions.checkNotNull(sectionForm.getName(), "The name is required");
         this.id = id;
         this.profileKey = Key.create(Profile.class, organizerUserId);
         this.organizerUserId = organizerUserId;
-        updateWithConferenceForm(conferenceForm);
+        updateWithSectionForm(sectionForm);
     }
 
     public long getId() {
@@ -164,92 +149,47 @@ public class Section {
      * Returns a defensive copy of topics if not null.
      * @return a defensive copy of topics if not null.
      */
-    public List<String> getTopics() {
-        return topics == null ? null : ImmutableList.copyOf(topics);
+    public List<String> getCategories() {
+        return categories == null ? null : ImmutableList.copyOf(categories);
     }
 
     public String getCity() {
         return city;
     }
-
-    /**
-     * Returns a defensive copy of startDate if not null.
-     * @return a defensive copy of startDate if not null.
-     */
-    public Date getStartDate() {
-        return startDate == null ? null : new Date(startDate.getTime());
+    
+    public String getAddress() {
+        return address;
     }
 
+    public String workingTime() {
+    	return workingTime;
+    }
+    
+    public int price() {
+    	return price;
+    }
+   
     /**
      * Returns a defensive copy of endDate if not null.
      * @return a defensive copy of endDate if not null.
      */
-    public Date getEndDate() {
-        return endDate == null ? null : new Date(endDate.getTime());
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getMaxAttendees() {
-        return maxAttendees;
-    }
-
-    public int getSeatsAvailable() {
-        return seatsAvailable;
-    }
-
+ 
     /**
      * Updates the Conference with ConferenceForm.
      * This method is used upon object creation as well as updating existing Conferences.
      *
      * @param conferenceForm contains form data sent from the client.
      */
-    public void updateWithConferenceForm(SectionForm conferenceForm) {
+    public void updateWithSectionForm(SectionForm conferenceForm) {
         this.name = conferenceForm.getName();
         this.description = conferenceForm.getDescription();
-        List<String> topics = conferenceForm.getTopics();
-        this.topics = topics == null || topics.isEmpty() ? DEFAULT_TOPICS : topics;
+        List<String> categories = conferenceForm.getTopics();
+        this.categories = categories == null || categories.isEmpty() ? DEFAULT_TOPICS : categories;
         this.city = conferenceForm.getCity() == null ? DEFAULT_CITY : conferenceForm.getCity();
 
-        Date startDate = conferenceForm.getStartDate();
-        this.startDate = startDate == null ? null : new Date(startDate.getTime());
-        Date endDate = conferenceForm.getEndDate();
-        this.endDate = endDate == null ? null : new Date(endDate.getTime());
-        if (this.startDate != null) {
-            // Getting the starting month for a composite query.
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(this.startDate);
-            // Calendar.MONTH is zero based, so adding 1.
-            this.month = calendar.get(calendar.MONTH) + 1;
-        }
-        // Check maxAttendees value against the number of already allocated seats.
-        int seatsAllocated = maxAttendees - seatsAvailable;
-        if (conferenceForm.getMaxAttendees() < seatsAllocated) {
-            throw new IllegalArgumentException(seatsAllocated + " seats are already allocated, "
-                    + "but you tried to set maxAttendees to " + conferenceForm.getMaxAttendees());
-        }
-        // The initial number of seatsAvailable is the same as maxAttendees.
-        // However, if there are already some seats allocated, we should subtract that numbers.
-        this.maxAttendees = conferenceForm.getMaxAttendees();
-        this.seatsAvailable = this.maxAttendees - seatsAllocated;
     }
 
-    public void bookSeats(final int number) {
-        if (seatsAvailable < number) {
-            throw new IllegalArgumentException("There are no seats available.");
-        }
-        seatsAvailable = seatsAvailable - number;
-    }
-
-    public void giveBackSeats(final int number) {
-        if (seatsAvailable + number > maxAttendees) {
-            throw new IllegalArgumentException("The number of seats will exceeds the capacity.");
-        }
-        seatsAvailable = seatsAvailable + number;
-    }
-
+    
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("Id: " + id + "\n")
@@ -257,19 +197,13 @@ public class Section {
         if (city != null) {
             stringBuilder.append("City: ").append(city).append("\n");
         }
-        if (topics != null && topics.size() > 0) {
-            stringBuilder.append("Topics:\n");
-            for (String topic : topics) {
+        if (categories != null && categories.size() > 0) {
+            stringBuilder.append("Categories:\n");
+            for (String topic : categories) {
                 stringBuilder.append("\t").append(topic).append("\n");
             }
         }
-        if (startDate != null) {
-            stringBuilder.append("StartDate: ").append(startDate.toString()).append("\n");
-        }
-        if (endDate != null) {
-            stringBuilder.append("EndDate: ").append(endDate.toString()).append("\n");
-        }
-        stringBuilder.append("Max Attendees: ").append(maxAttendees).append("\n");
+    
         return stringBuilder.toString();
     }
 
