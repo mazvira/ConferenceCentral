@@ -36,22 +36,25 @@
                         <span id="city">{{conference.city}}</span>
                     </div>
                     <div>
-                        <label for="topics">Topics: </label>
-                        <span id="topics">
-                            <span ng-repeat="topic in conference.topics" class="label label-primary label-separated">{{topic}}</span>
+                        <label for="address">Address: </label>
+                        <span id="address">{{conference.address}}</span>
+                    </div>
+                    
+                    
+                    <div>
+                        <label for="categories">Categories: </label>
+                        <span id="categories">
+                            <span ng-repeat="category in conference.categories" class="label label-primary label-separated">{{topic}}</span>
                         </span>
                     </div>
                     <div>
-                        <label for="startDate">Start Date: </label>
-                        <span id="startDate">{{conference.startDate | date:'dd-MMMM-yyyy'}}</span>
+                        <label for="price">Price: </label>
+                        <span id="price">{{conference.price}}</span>
                     </div>
-                    <div>
-                        <label for="endDate">End Date: </label>
-                        <span id="endDate">{{conference.endDate | date:'dd-MMMM-yyyy'}}</span>
-                    </div>
+                    
+
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
- 
