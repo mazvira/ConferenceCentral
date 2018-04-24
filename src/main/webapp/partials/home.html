@@ -1,94 +1,65 @@
-<div ng-controller="CreateConferenceCtrl">
+<div class="intro-header">
     <div class="row">
         <div class="col-lg-12">
-            <div id="messages" class="alert alert-{{alertStatus}}" ng-show="messages">
-                <span ng-bind="messages"></span>
-                <i class="dismiss-messages pull-right glyphicon glyphicon-remove" ng-click="messages = ''"
-                   ng-show="messages"></i>
+            <div class="intro-message">
+                <h1>Welcome to Hobby Finder</h1>
+
+                <h3>It will help you to find a hobby</h3>
+                <hr class="intro-divider">
+                <ul class="list-inline intro-social-buttons">
+                    <li id="signInLink" ng-hide="getSignedInState()" on-click="return false">
+                        <a class="btn btn-default btn-lg" ng-click="signIn()">Google+ SignIn</a>
+                    </li>
+                    <li id="signOutLink" ng-show="getSignedInState()" on-click="return false">
+                        <a class="btn btn-default btn-lg" ng-click="signOut()">Log out</a>
+                    </li>
+                </ul>
             </div>
-            <img class="spinner" src="/img/ajax-loader.gif" ng-show="loading"/>
         </div>
     </div>
+</div>
+<div class="section-a">
     <div class="row">
-        <div class="col-md-8">
-            <h3>Create a conference</h3>
+        <div class="col-lg-5 col-sm-6">
+            <hr>
+            <div class="clearfix"></div>
+            <h2>View sections</h2>
 
-            <form name="conferenceForm" novalidate role="form">
-                <div class="form-group">
-                    <label for="name">Name <span class="required">*</span></label>
-                    <span class="label label-danger"
-                        ng-show="conferenceForm.name.$error.required">Required!</span>
-                    <input id="name" type="text" name="name" ng-model="conference.name" class="form-control"
-                           ng-required="true"/>
-                </div>
+            <p class="lead">View by city, topics, price, time, destination.</p>
+            <a href="#/conference" class="btn btn-default btn-lg">View sections</a>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+            <img class="img-responsive" src="/img/business1.jpg" alt="">
+        </div>
+    </div>
+</div>
 
-                <div class="form-group">
-                    <label for="city">City</label>
-                    <select id="city" ng-model="conference.city" name="city" ng-options="city for city in cities"
-                            class="form-control">
-                    </select>
-                </div>
+<div class="section-a">
+    <div class="row">
+        <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Create new section</h2>
 
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" type="text" name="description" ng-model="conference.description"
-                              class="form-control"></textarea>
-                </div>
+            <p class="lead">In 10 seconds or even less.</p>
+            <a href="#/conference/create" class="btn btn-default btn-lg">Create a section</a>
+        </div>
+        <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+            <img class="img-responsive" src="/img/create.jpg" alt="">
+        </div>
+    </div>
+</div>
 
-                <div class="form-group">
-                    <label for="topics">Topics</label>
-                    <select id="topics" ng-model="conference.topics" name="topics"
-                            ng-options="topic for topic in topics"
-                            class="form-control" multiple>
-                    </select>
-                </div>
-
-                <div class="form-group" ng-controller="DatepickerCtrl">
-                    <label for="startDate">Start Date</label>
-                    <p class="input-group">
-                        <input id="startDate" type="text" class="form-control" datepicker-popup="{{format}}"
-                               ng-model="conference.startDate" is-open="opened"
-                               datepicker-options="dateOptions"
-                               close-text="Close"/>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" ng-click="open($event)"><i
-                                class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
-                    </p>
-                </div>
-
-                <div class="form-group" ng-controller="DatepickerCtrl">
-                    <label for="endDate">End Date</label>
-                    <span class="label label-danger"
-                        ng-show="!isValidDates()">End Date must be later or equal to Start Date!</span>
-                    <p class="input-group">
-                        <input id="endDate" type="text" class="form-control" datepicker-popup="{{format}}"
-                               ng-model="conference.endDate" is-open="opened"
-                               datepicker-options="dateOptions"
-                               close-text="Close"/>
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" ng-click="open($event)"><i
-                                class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
-                    </p>
-                </div>
-
-                <div class="form-group">
-                    <label for="maxAttendees">Max Attendees</label>
-                    <span class="label label-danger"
-                        ng-show="!isValidMaxAttendees()">Must be an integer!</span>
-                    <!-- The input type is text as the conference.maxAttendees will be undefined,
-                    hence isValidMaxAttendees will be true when input type is number -->
-                    <input id="maxAttendees" type="text" name="maxAttendees" ng-model="conference.maxAttendees"
-                           class="form-control"/>
-                </div>
-
-                <button ng-click="createConference(conferenceForm)" class="btn btn-primary"
-                        ng-disabled="!isValidConference(conferenceForm) || loading">Create
-                </button>
-            </form>
+<div class="section-a">
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+            <hr>
+            <div class="clearfix"></div>
+            <h2 class="section-heading">Update your profile</h2>
+            <a href="#/profile" class="btn btn-default btn-lg">View my profile</a>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+            <img class="img-responsive" src="/img/business3.jpg" alt="">
         </div>
     </div>
 </div>
