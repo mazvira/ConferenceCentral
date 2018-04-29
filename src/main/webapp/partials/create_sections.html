@@ -15,7 +15,7 @@
 
             <form name="conferenceForm" novalidate role="form">
                 <div class="form-group">
-                   "src/main/webapp/fonts/glyphicons-halflings-regular.woff" <label for="name">Name <span class="required">*</span></label>
+                <label for="name">Name <span class="required">*</span></label>
                     <span class="label label-danger"
                         ng-show="conferenceForm.name.$error.required">Required!</span>
                     <input id="name" type="text" name="name" ng-model="conference.name" class="form-control"
@@ -31,9 +31,9 @@
                 
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <select id="address" ng-model="conference.address" name="address" ng-options="address for address"
+                   <textarea id="address" ng-model="conference.address" name="address"
                             class="form-control">
-                    </select>
+                    </textarea>
                 </div>
 
                 <div class="form-group">
@@ -42,6 +42,7 @@
                               class="form-control"></textarea>
                 </div>
                 
+                    
                 <div class="form-group">
                     <label for="categories">Categories</label>
                     <select id="categories" ng-model="conference.categories" name="categories"
@@ -60,8 +61,17 @@
                 
                <div class="form-group">
                     <label for="workingTime">Working time</label>
-                    <textarea id="workingTime" name="workingTime" ng-model="conference.workingTime" ng-options="workingTime for workingTime"
-                              class="form-control"></textarea>
+                    <select id="workingTime" name="workingTime" ng-model="conference.workingTime" ng-options="workingTime for workingTime"
+                              class="form-control"  multiple>
+                            <option value="0">all day</option>
+                            <option value="1">from 06:00</option>
+                            <option value="2">from 07:00</option>
+                            <option value="3">from 08:00</option>
+                            <option value="4">to 00:00</option>
+                            <option value="5">to 01:00</option>
+                            <option value="6">to 02:00</option>
+                        
+                    </select>
                 </div>
                 
                <div class="form-group">
