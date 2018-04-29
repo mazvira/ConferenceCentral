@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Tests for ConferenceApi API methods.
  */
-public class ConferenceApiTest {
+public class HobbyApiTest {
 
     private static final String EMAIL = "example@gmail.com";
 

@@ -142,7 +142,7 @@ conferenceApp.controllers.controller('CreateConferenceCtrl',
          * @type {string[]}
          */
         $scope.cities = [
-            'Chicago',
+            'Kyiv',
             'London',
             'Paris',
             'San Francisco',
@@ -153,12 +153,14 @@ conferenceApp.controllers.controller('CreateConferenceCtrl',
          * Holds the default values for the input candidates for topics select.
          * @type {string[]}
          */
-        $scope.topics = [
-            'Medical Innovations',
-            'Programming Languages',
-            'Web Technologies',
-            'Movie Making',
-            'Health and Nutrition'
+        $scope.categories = [
+            'Fitness',
+            'Dancing',
+            'Yoga',
+            'Swimming',
+            'Football',
+            'Gym',
+            'Boxing'
         ];
 
         /**
